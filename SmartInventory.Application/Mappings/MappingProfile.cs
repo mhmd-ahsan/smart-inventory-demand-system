@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SmartInventory.Application.DTOs.ProductsDtos;
+using SmartInventory.Application.DTOs.SupplierDtos;
 using SmartInventory.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,13 @@ namespace SmartInventory.Application.Mappings
             CreateMap<ProductCreateDto, Product>();
 
             CreateMap<ProductUpdateDto, Product>();
+
+            // Supplier Mapping
+            CreateMap<Supplier, SupplierReadDto>();
+
+            CreateMap<CreateSupplierDto, Supplier>();
+
+            CreateMap<UpdateSupplierDto, Supplier>();
         }
     }
 }
