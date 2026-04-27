@@ -5,7 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SmartInventory.Application.Interfaces;
 using SmartInventory.Application.Interfaces.Product_Interfaces;
+using SmartInventory.Application.Interfaces.Repo_Interfaces;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Product_Interface;
+using SmartInventory.Application.Interfaces.Service_Interfaces.Supplier_Interface;
 using SmartInventory.Application.Mappings;
 using SmartInventory.Application.Services;
 using SmartInventory.Application.Services.Product_Service;
@@ -25,13 +27,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 // DI
-builder.Services.AddScoped<
-IProductRepository,
-ProductRepository>();
-
-builder.Services.AddScoped<
-IProductService,
-ProductService>();
+builder.Services.AddScoped<IProductRepository,ProductRepository>();
+builder.Services.AddScoped<IProductService,ProductService>();
+builder.Services.AddScoped<ISupplierRepository,SupplierRepository>();
+builder.Services.AddScoped<ISupplierService,SupplierService>();
 
 
 // AutoMapper
@@ -74,7 +73,16 @@ JwtBearerDefaults.AuthenticationScheme)
       };
 });
 
-
+// Add Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+    "AllowAngular",
+    p => p.WithOrigins(
+    "http://localhost:4200")
+    .AllowAnyHeader()
+    .AllowAnyMethod());
+});
 // Controllers
 builder.Services.AddControllers();
 
@@ -95,7 +103,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowAngular");
 app.UseAuthentication();
 
 app.UseAuthorization();
