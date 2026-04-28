@@ -6,11 +6,12 @@ using Microsoft.IdentityModel.Tokens;
 using SmartInventory.Application.Interfaces;
 using SmartInventory.Application.Interfaces.Product_Interfaces;
 using SmartInventory.Application.Interfaces.Repo_Interfaces;
+using SmartInventory.Application.Interfaces.Repo_Interfaces.Inventory_Interface;
+using SmartInventory.Application.Interfaces.Service_Interfaces.Inventory_Interface;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Product_Interface;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Supplier_Interface;
 using SmartInventory.Application.Mappings;
 using SmartInventory.Application.Services;
-using SmartInventory.Application.Services.Product_Service;
 using SmartInventory.Infrastructure.Data;
 using SmartInventory.Infrastructure.Identity;
 using SmartInventory.Infrastructure.Repositories;
@@ -31,6 +32,8 @@ builder.Services.AddScoped<IProductRepository,ProductRepository>();
 builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddScoped<ISupplierRepository,SupplierRepository>();
 builder.Services.AddScoped<ISupplierService,SupplierService>();
+builder.Services.AddScoped<IInventoryLogRepository,InventoryLogRepository>();
+builder.Services.AddScoped<IInventoryLogService,InventoryLogService>();
 
 
 // AutoMapper

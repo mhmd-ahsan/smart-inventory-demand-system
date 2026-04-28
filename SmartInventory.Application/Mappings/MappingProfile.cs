@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SmartInventory.Application.DTOs.InventoryLogDtos;
 using SmartInventory.Application.DTOs.ProductsDtos;
 using SmartInventory.Application.DTOs.SupplierDtos;
 using SmartInventory.Domain.Entities;
@@ -29,6 +30,14 @@ namespace SmartInventory.Application.Mappings
             CreateMap<CreateSupplierDto, Supplier>();
 
             CreateMap<UpdateSupplierDto, Supplier>();
+
+            // InventoryLog Mapping
+            CreateMap<InventoryLog, InventoryLogReadDto>()
+                .ForMember(d => d.ProductName, opt => opt.MapFrom(s => s.Product.Name));
+
+            CreateMap<CreateInventoryLogDto, InventoryLog>();
+
+            CreateMap<UpdateInventoryLogDto, InventoryLog>();
         }
     }
 }
