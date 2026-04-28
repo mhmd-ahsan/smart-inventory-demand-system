@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartInventory.Application.Services.Product_Service
+namespace SmartInventory.Application.Services
 {
     public class ProductService : IProductService
     {
