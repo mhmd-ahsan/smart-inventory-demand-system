@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SmartInventory.Domain.Entities;
-using SmartInventory.Infrastructure.Identity;
+using SmartInventory.Domain.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

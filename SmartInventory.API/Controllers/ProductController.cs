@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartInventory.Application.Common.Responses;
 using SmartInventory.Application.DTOs.ProductsDtos;
@@ -16,6 +17,7 @@ namespace SmartInventory.API.Controllers
             _service = service;
         }
 
+        [Authorize]
         // Get All Products
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAll()
