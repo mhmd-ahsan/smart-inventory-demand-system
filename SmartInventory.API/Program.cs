@@ -20,6 +20,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Http;
+using SmartInventory.Application.Interfaces.Repo_Interfaces.Category_Interfaces;
+using SmartInventory.Application.Interfaces.Service_Interfaces.Category_Interfaces;
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -44,6 +46,9 @@ builder.Services.AddScoped<IInventoryLogService, InventoryLogService>();
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 
 // AutoMapper

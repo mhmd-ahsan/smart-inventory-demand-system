@@ -12,5 +12,6 @@ namespace SmartInventory.Application.DTOs.ProductsDtos
         public decimal Price { get; set; }
         public int StockQuantity { get; set; }
         public int SupplierId { get; set; }
+        public int CategoryId { get; set; }
     }
 }

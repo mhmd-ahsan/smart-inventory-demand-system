@@ -23,6 +23,12 @@ namespace SmartInventory.Infrastructure.Configurations
             builder.Property(p => p.StockQuantity)
                 .IsRequired();
 
+            // Category Relation
+            builder.HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Supplier relation
             builder.HasOne(p => p.Supplier)
                 .WithMany(s => s.Products)
