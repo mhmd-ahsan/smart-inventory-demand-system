@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SmartInventory.Application.DTOs.CategoryDtos;
 using SmartInventory.Application.DTOs.InventoryLogDtos;
 using SmartInventory.Application.DTOs.ProductsDtos;
 using SmartInventory.Application.DTOs.SupplierDtos;
@@ -38,6 +39,17 @@ namespace SmartInventory.Application.Mappings
             CreateMap<CreateInventoryLogDto, InventoryLog>();
 
             CreateMap<UpdateInventoryLogDto, InventoryLog>();
+
+            // Category Mapping
+
+            // Entity → ReadDto
+            CreateMap<Category, CategoryReadDto>();
+
+            // CreateDto → Entity
+            CreateMap<CategoryCreateDto, Category>();
+
+            // UpdateDto → Entity
+            CreateMap<CategoryUpdateDto, Category>();
         }
     }
 }

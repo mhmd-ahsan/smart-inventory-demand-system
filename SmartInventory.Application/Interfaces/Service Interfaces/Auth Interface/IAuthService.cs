@@ -11,6 +11,6 @@ namespace SmartInventory.Application.Interfaces.Service_Interfaces.Auth_Interfac
     public interface IAuthService
     {
         Task<ServiceResponse<string>> RegisterAsync(RegisterDto dto);
-        Task<AuthResponseDto?> LoginAsync(LoginDto dto);
+        Task<ServiceResponse<AuthResponseDto>> LoginAsync(LoginDto dto);
     }
 }

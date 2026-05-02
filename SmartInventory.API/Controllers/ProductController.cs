@@ -17,7 +17,7 @@ namespace SmartInventory.API.Controllers
             _service = service;
         }
 
-        [Authorize]
+        //[Authorize]
         // Get All Products
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAll()

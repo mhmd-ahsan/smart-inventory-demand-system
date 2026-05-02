@@ -21,6 +21,7 @@ namespace SmartInventory.Infrastructure.Data
         public DbSet<Sale> Sales { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<InventoryLog> InventoryLogs { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

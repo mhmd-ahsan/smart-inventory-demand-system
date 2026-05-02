@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartInventory.Application.Common.Responses;
 using SmartInventory.Application.DTOs.AuthDtos;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Auth_Interface;
-using SmartInventory.Domain.Identity;
 
 namespace SmartInventory.API.Controllers
 {
@@ -25,24 +23,12 @@ namespace SmartInventory.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _authService.RegisterAsync(dto);
+            var response = await _authService.RegisterAsync(dto);
 
-            if (!result.Success)
-            {
-                return BadRequest(new ApiResponse<string>
-                {
-                    Success = false,
-                    Message = result.Message,
-                    Data = null
-                });
-            }
+            if (!response.Success)
+                return BadRequest(response);
 
-            return Ok(new ApiResponse<string>
-            {
-                Success = true,
-                Message = result.Message,
-                Data = result.Data
-            });
+            return Ok(response);
         }
 
         // LOGIN
@@ -52,24 +38,12 @@ namespace SmartInventory.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _authService.LoginAsync(dto);
+            var response = await _authService.LoginAsync(dto);
 
-            if (result == null)
-            {
-                return Unauthorized(new ApiResponse<string>
-                {
-                    Success = false,
-                    Message = "Invalid email or password",
-                    Data = null
-                });
-            }
+            if (!response.Success)
+                return Unauthorized(response);
 
-            return Ok(new ApiResponse<AuthResponseDto>
-            {
-                Success = true,
-                Message = "Login successful",
-                Data = result
-            });
+            return Ok(response);
         }
 
         // PROTECTED ROUTE
@@ -77,11 +51,11 @@ namespace SmartInventory.API.Controllers
         [HttpGet("protected")]
         public IActionResult Protected()
         {
-            return Ok(new ApiResponse<string>
+            return Ok(new
             {
-                Success = true,
-                Message = "Authorized User",
-                Data = "You accessed protected route"
+                success = true,
+                message = "Authorized User",
+                data = "You accessed protected route"
             });
         }
 
@@ -90,40 +64,46 @@ namespace SmartInventory.API.Controllers
         [HttpGet("admin-only")]
         public IActionResult AdminOnly()
         {
-            return Ok(new ApiResponse<string>
+            return Ok(new
             {
-                Success = true,
-                Message = "Admin Access Granted",
-                Data = "Welcome Admin"
+                success = true,
+                message = "Admin Access Granted",
+                data = "Welcome Admin"
             });
         }
 
-        // HEALTH CHECK ENDPOINT
+        // HEALTH CHECK
         [HttpGet("ping")]
         public IActionResult Ping()
         {
-            return Ok(new ApiResponse<string>
+            return Ok(new
             {
-                Success = true,
-                Message = "AuthController is reachable",
-                Data = "pong"
+                success = true,
+                message = "AuthController is reachable",
+                data = "pong"
             });
         }
 
+        // WHO AM I
         [Authorize]
         [HttpGet("whoami")]
         public IActionResult WhoAmI()
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var userId =
+                User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            var email = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+            var email =
+                User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
 
             return Ok(new
             {
-                UserId = userId,
-                Email = email
+                success = true,
+                data = new
+                {
+                    userId,
+                    email
+                }
             });
         }
-
     }
 }
