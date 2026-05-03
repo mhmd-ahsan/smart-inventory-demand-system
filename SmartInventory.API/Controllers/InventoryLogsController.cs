@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SmartInventory.Application.Common.Responses;
 using SmartInventory.Application.DTOs.InventoryLogDtos;
-using SmartInventory.Application.Interfaces;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Inventory_Interface;
 
 namespace SmartInventory.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InventoryLogsController : ControllerBase
+    public class InventoryLogsController
+        : ControllerBase
     {
         private readonly IInventoryLogService _service;
 
@@ -18,114 +17,75 @@ namespace SmartInventory.API.Controllers
             _service = service;
         }
 
-        // Get All Logs
+        // GET: api/inventorylogs/get-all
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAll()
         {
-            var result =
+            var response =
                 await _service.GetAllAsync();
 
-            return Ok(
-                new ApiResponse<
-                    IEnumerable<InventoryLogReadDto>>
-                {
-                    Success = true,
-                    Message = "Inventory logs fetched",
-                    Data = result
-                });
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
         }
 
-        // Get Log By Id
+        // GET: api/inventorylogs/5
         [HttpGet("{id:int}")]
         public async Task<IActionResult>
-        GetById(int id)
+            GetById(int id)
         {
-            var log =
-               await _service.GetByIdAsync(id);
+            var response =
+                await _service.GetByIdAsync(id);
 
-            if (log is null)
-            {
-                return NotFound(
-                    new ApiResponse<string>
-                    {
-                        Success = false,
-                        Message = "Inventory log not found",
-                        Data = null
-                    });
-            }
+            if (!response.Success)
+                return NotFound(response);
 
-            return Ok(
-                new ApiResponse<
-                    InventoryLogReadDto>
-                {
-                    Success = true,
-                    Message = "Inventory log found",
-                    Data = log
-                });
+            return Ok(response);
         }
 
-        // Add Inventory Log
+        // POST: api/inventorylogs/add-log
         [HttpPost("add-log")]
         public async Task<IActionResult>
-        AddLog(
-         [FromBody]
-         CreateInventoryLogDto dto)
+            AddLog(CreateInventoryLogDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var response =
+                await _service.CreateAsync(dto);
 
-            await _service.CreateAsync(dto);
+            if (!response.Success)
+                return BadRequest(response);
 
-            return Ok(
-                new ApiResponse<string>
-                {
-                    Success = true,
-                    Message =
-                       "Inventory log created successfully",
-                    Data = "Created"
-                });
+            return Ok(response);
         }
 
-        // Update Inventory Log
+        // PUT: api/inventorylogs/5
         [HttpPut("{id:int}")]
         public async Task<IActionResult>
-        UpdateLog(
-            int id,
-            [FromBody]
-            UpdateInventoryLogDto dto)
+            UpdateLog(
+                int id,
+                UpdateInventoryLogDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var response =
+                await _service.UpdateAsync(id, dto);
 
-            await _service.UpdateAsync(
-                id,
-                dto);
+            if (!response.Success)
+                return BadRequest(response);
 
-            return Ok(
-               new ApiResponse<string>
-               {
-                   Success = true,
-                   Message =
-                     "Inventory log updated successfully",
-                   Data = "Updated"
-               });
+            return Ok(response);
         }
 
-        // Delete Inventory Log
+        // DELETE: api/inventorylogs/5
         [HttpDelete("{id:int}")]
         public async Task<IActionResult>
-        DeleteLog(int id)
+            DeleteLog(int id)
         {
-            await _service.DeleteAsync(id);
+            var response =
+                await _service.DeleteAsync(id);
 
-            return Ok(
-              new ApiResponse<string>
-              {
-                  Success = true,
-                  Message =
-                    "Inventory log deleted successfully",
-                  Data = "Deleted"
-              });
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
         }
     }
 }

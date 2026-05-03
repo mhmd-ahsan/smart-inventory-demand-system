@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SmartInventory.Application.Common.Responses;
 using SmartInventory.Application.DTOs.ProductsDtos;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Product_Interface;
 
@@ -12,96 +10,77 @@ namespace SmartInventory.API.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _service;
-        public ProductController(IProductService service)
+
+        public ProductController(
+            IProductService service)
         {
             _service = service;
         }
 
-        //[Authorize]
-        // Get All Products
+        // GET: api/product/get-all
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _service.GetAllProducts();
+            var response =
+                await _service.GetAllProducts();
 
-            return Ok(new ApiResponse<IEnumerable<ProductReadDto>>
-            {
-                Success = true,
-                Message = "Products fetched",
-                Data = result
-            });
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
         }
 
-        // Get Product by Id
+        // GET: api/product/5
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetProductById(int id)
+        public async Task<IActionResult>
+            GetById(int id)
         {
-            var product = await _service.GetProductById(id);
+            var response =
+                await _service.GetProductById(id);
 
-            if (product is null)
-            {
-                return NotFound(
-                    new ApiResponse<string>
-                    {
-                        Success = false,
-                        Message = "Product not found",
-                        Data = null
-                    });
-            }
+            if (!response.Success)
+                return NotFound(response);
 
-            return Ok(new ApiResponse<ProductReadDto>
-            {
-                Success = true,
-                Message = "Product Found",
-                Data = product
-            });
+            return Ok(response);
         }
 
-        // Add Product
-        [HttpPost("Add-product")]
-        public async Task<IActionResult> AddProduct([FromBody] ProductCreateDto dto)
+        // POST: api/product/add-product
+        [HttpPost("add-product")]
+        public async Task<IActionResult> AddProduct(ProductCreateDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var response =
+                await _service.CreateProduct(dto);
 
-            await _service.CreateProduct(dto);
-            return Ok(new ApiResponse<string>
-            {
-                Success = true,
-                Message = "Product created successfully",
-                Data = "Created"
-            });
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
         }
 
-        // Update Product
-        [HttpPut("{id:int}")] 
-        public async Task<IActionResult> UpdateProduct(int id,[FromBody] ProductUpdateDto dto)
+        // PUT: api/product/5
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateProduct(int id, ProductUpdateDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            await _service.UpdateProduct(id, dto);
+            var response =
+                await _service.UpdateProduct(id, dto);
 
-            return Ok(new ApiResponse<string>
-            {
-                Success = true,
-                Message = "Product updated successfully",
-                Data = "Updated"
-            });
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
         }
 
-        // Delete Product
+        // DELETE: api/product/5
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            await _service.DeleteProduct(id);
+            var response =
+                await _service.DeleteProduct(id);
 
-            return Ok(
-                new ApiResponse<string>
-                {
-                    Success = true,
-                    Message = "Product deleted successfully",
-                    Data = "Deleted"
-                });
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
         }
     }
 }

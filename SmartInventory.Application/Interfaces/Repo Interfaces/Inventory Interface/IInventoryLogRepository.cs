@@ -14,6 +14,6 @@ namespace SmartInventory.Application.Interfaces.Repo_Interfaces.Inventory_Interf
         Task AddInventoryAsync(InventoryLog log);
         void UpdateInventory(InventoryLog log);
         void DeleteInventory(InventoryLog log);
-        Task SaveChangesAsync();
+        Task<bool> SaveChangesAsync();
     }
 }

@@ -1,4 +1,5 @@
-﻿using SmartInventory.Application.DTOs.InventoryLogDtos;
+﻿using SmartInventory.Application.Common.Responses;
+using SmartInventory.Application.DTOs.InventoryLogDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace SmartInventory.Application.Interfaces.Service_Interfaces.Inventory_Int
 {
     public interface IInventoryLogService
     {
-        Task<IEnumerable<InventoryLogReadDto>> GetAllAsync();
-        Task<InventoryLogReadDto>GetByIdAsync(int id);
-        Task CreateAsync(CreateInventoryLogDto dto);
-        Task UpdateAsync(int id,UpdateInventoryLogDto dto);
-        Task DeleteAsync(int id);
+        Task<ServiceResponse<IEnumerable<InventoryLogReadDto>>> GetAllAsync();
+        Task<ServiceResponse<InventoryLogReadDto>> GetByIdAsync(int id);
+        Task<ServiceResponse<int>> CreateAsync(CreateInventoryLogDto dto);
+        Task<ServiceResponse<bool>> UpdateAsync(int id, UpdateInventoryLogDto dto);
+        Task<ServiceResponse<bool>> DeleteAsync(int id);
     }
 }

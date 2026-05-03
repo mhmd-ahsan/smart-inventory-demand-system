@@ -14,7 +14,7 @@ namespace SmartInventory.Application.Interfaces.Repo_Interfaces
         Task AddSupplierAsync(Supplier supplier);
         void UpdateSupplier(Supplier supplier);
         void RemoveSupplier(Supplier supplier);
-        Task SaveChangesAsync();
+        Task<bool> SaveChangesAsync();
 
     }
 }

@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
+using SmartInventory.Application.Common.Responses;
 using SmartInventory.Application.DTOs.SupplierDtos;
 using SmartInventory.Application.Interfaces.Repo_Interfaces;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Supplier_Interface;
 using SmartInventory.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartInventory.Application.Services
 {
@@ -16,68 +12,255 @@ namespace SmartInventory.Application.Services
         private readonly ISupplierRepository _repo;
         private readonly IMapper _mapper;
 
-        public SupplierService(ISupplierRepository repo, IMapper mapper)
+        public SupplierService(
+            ISupplierRepository repo,
+            IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
         }
 
         // Get All Suppliers
-        public async Task<IEnumerable<SupplierReadDto>> GetAllSupplier()
+        public async Task<ServiceResponse<IEnumerable<SupplierReadDto>>> GetAllSupplier()
         {
-            var suppliers = await _repo.GetAllSuppliersAsync();
+            try
+            {
+                var suppliers =
+                    await _repo.GetAllSuppliersAsync();
 
-            return _mapper.Map<
-            IEnumerable<SupplierReadDto>>
-            (suppliers);
+                var supplierDtos =
+                    _mapper.Map<
+                        IEnumerable<SupplierReadDto>>
+                        (suppliers);
+
+                return ServiceResponse
+                    <IEnumerable<SupplierReadDto>>
+                    .SuccessResponse(
+                        supplierDtos,
+                        "Suppliers fetched successfully"
+                    );
+            }
+            catch (Exception ex)
+            {
+                return ServiceResponse
+                    <IEnumerable<SupplierReadDto>>
+                    .FailureResponse(
+                        $"An error occurred while fetching suppliers: {ex.Message}"
+                    );
+            }
         }
 
         // Get Supplier By Id
-        public async Task<SupplierReadDto?> GetSupplierById(int id)
+        public async Task<ServiceResponse<SupplierReadDto>> GetSupplierById(int id)
         {
-            var supplier = await _repo.GetSupplierByIdAsyn(id);
+            try
+            {
+                if (id <= 0)
+                {
+                    return ServiceResponse
+                        <SupplierReadDto>
+                        .FailureResponse(
+                            "Invalid supplier id"
+                        );
+                }
 
-            if(supplier == null)
-                return null;
-            return _mapper.Map<SupplierReadDto>(supplier);
+                var supplier =
+                    await _repo.GetSupplierByIdAsyn(id);
+
+                if (supplier == null)
+                {
+                    return ServiceResponse
+                        <SupplierReadDto>
+                        .FailureResponse(
+                            "Supplier not found"
+                        );
+                }
+
+                var supplierDto =
+                    _mapper.Map<SupplierReadDto>
+                    (supplier);
+
+                return ServiceResponse
+                    <SupplierReadDto>
+                    .SuccessResponse(
+                        supplierDto,
+                        "Supplier fetched successfully"
+                    );
+            }
+            catch (Exception ex)
+            {
+                return ServiceResponse
+                    <SupplierReadDto>
+                    .FailureResponse(
+                        $"An error occurred while fetching supplier: {ex.Message}"
+                    );
+            }
         }
 
         // Add Supplier
-        public async Task AddSupplier(CreateSupplierDto dto)
+        public async Task<ServiceResponse<int>> AddSupplier(CreateSupplierDto dto)
         {
-            var supplier = _mapper.Map<Supplier>(dto);
+            try
+            {
+                if (dto == null)
+                {
+                    return ServiceResponse<int>
+                        .FailureResponse(
+                            "Supplier data is required"
+                        );
+                }
 
-            await _repo.AddSupplierAsync(supplier);
+                if (string.IsNullOrWhiteSpace(dto.Name))
+                {
+                    return ServiceResponse<int>
+                        .FailureResponse(
+                            "Supplier name is required"
+                        );
+                }
 
-            await _repo.SaveChangesAsync();
+                var supplier =
+                    _mapper.Map<Supplier>(dto);
+
+                await _repo.AddSupplierAsync(supplier);
+
+                bool saved =
+                    await _repo.SaveChangesAsync();
+
+                if (!saved)
+                {
+                    return ServiceResponse<int>
+                        .FailureResponse(
+                            "Failed to save supplier"
+                        );
+                }
+
+                return ServiceResponse<int>
+                    .SuccessResponse(
+                        supplier.Id,
+                        "Supplier created successfully"
+                    );
+            }
+            catch (Exception ex)
+            {
+                return ServiceResponse<int>
+                    .FailureResponse(
+                        $"An error occurred while creating supplier: {ex.Message}"
+                    );
+            }
         }
 
         // Update Supplier
-        public async Task UpdateSupplier(int id, UpdateSupplierDto dto)
+        public async Task<ServiceResponse<bool>> UpdateSupplier( int id, UpdateSupplierDto dto)
         {
-            var supplier = await _repo.GetSupplierByIdAsyn(id);
+            try
+            {
+                if (id <= 0)
+                {
+                    return ServiceResponse<bool>
+                        .FailureResponse(
+                            "Invalid supplier id"
+                        );
+                }
 
-            if (supplier == null)
-                throw new Exception(
-                 "Supplier not found");
-            _mapper.Map(dto, supplier);
+                if (dto == null)
+                {
+                    return ServiceResponse<bool>
+                        .FailureResponse(
+                            "Supplier data is required"
+                        );
+                }
 
-             _repo.UpdateSupplier(supplier);
+                var supplier =
+                    await _repo.GetSupplierByIdAsyn(id);
 
-            await _repo.SaveChangesAsync();
+                if (supplier == null)
+                {
+                    return ServiceResponse<bool>
+                        .FailureResponse(
+                            "Supplier not found"
+                        );
+                }
+
+                _mapper.Map(dto, supplier);
+
+                _repo.UpdateSupplier(supplier);
+
+                bool saved =
+                    await _repo.SaveChangesAsync();
+
+                if (!saved)
+                {
+                    return ServiceResponse<bool>
+                        .FailureResponse(
+                            "Failed to update supplier"
+                        );
+                }
+
+                return ServiceResponse<bool>
+                    .SuccessResponse(
+                        true,
+                        "Supplier updated successfully"
+                    );
+            }
+            catch (Exception ex)
+            {
+                return ServiceResponse<bool>
+                    .FailureResponse(
+                        $"An error occurred while updating supplier: {ex.Message}"
+                    );
+            }
         }
 
-        // Delete SUpplier
-        public async Task DeleteSupplier(int id)
+        // Delete Supplier
+        public async Task<ServiceResponse<bool>> DeleteSupplier(int id)
         {
-            var supplier = await _repo.GetSupplierByIdAsyn(id);
+            try
+            {
+                if (id <= 0)
+                {
+                    return ServiceResponse<bool>
+                        .FailureResponse(
+                            "Invalid supplier id"
+                        );
+                }
 
-            if (supplier == null)
-                throw new Exception(
-                 "Supplier not found");
+                var supplier =
+                    await _repo.GetSupplierByIdAsyn(id);
 
-            _repo.RemoveSupplier(supplier);
-            await _repo.SaveChangesAsync();
+                if (supplier == null)
+                {
+                    return ServiceResponse<bool>
+                        .FailureResponse(
+                            "Supplier not found"
+                        );
+                }
+
+                _repo.RemoveSupplier(supplier);
+
+                bool saved =
+                    await _repo.SaveChangesAsync();
+
+                if (!saved)
+                {
+                    return ServiceResponse<bool>
+                        .FailureResponse(
+                            "Failed to delete supplier"
+                        );
+                }
+
+                return ServiceResponse<bool>
+                    .SuccessResponse(
+                        true,
+                        "Supplier deleted successfully"
+                    );
+            }
+            catch (Exception ex)
+            {
+                return ServiceResponse<bool>
+                    .FailureResponse(
+                        $"An error occurred while deleting supplier: {ex.Message}"
+                    );
+            }
         }
     }
 }
