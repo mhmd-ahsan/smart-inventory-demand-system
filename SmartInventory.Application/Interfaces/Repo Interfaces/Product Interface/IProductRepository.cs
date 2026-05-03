@@ -14,7 +14,7 @@ namespace SmartInventory.Application.Interfaces.Product_Interfaces
         Task AddProductAsync(Product product);
         void UpdateProductAsync(Product product);
         void DeleteProductAsync(Product product);
-        Task SaveChangesAsync();
+        Task<bool> SaveChangesAsync();
           
     }
 }

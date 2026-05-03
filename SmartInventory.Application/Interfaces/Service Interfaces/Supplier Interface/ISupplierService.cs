@@ -1,4 +1,5 @@
-﻿using SmartInventory.Application.DTOs.SupplierDtos;
+﻿using SmartInventory.Application.Common.Responses;
+using SmartInventory.Application.DTOs.SupplierDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace SmartInventory.Application.Interfaces.Service_Interfaces.Supplier_Inte
 {
     public interface ISupplierService
     {
-        Task<IEnumerable<SupplierReadDto>> GetAllSupplier();
-        Task<SupplierReadDto?> GetSupplierById(int id);
-        Task AddSupplier(CreateSupplierDto dto);
-        Task UpdateSupplier(int id, UpdateSupplierDto dto);
-        Task DeleteSupplier(int id);
+        Task<ServiceResponse<IEnumerable<SupplierReadDto>>> GetAllSupplier();
+        Task<ServiceResponse<SupplierReadDto>> GetSupplierById(int id);
+        Task<ServiceResponse<int>> AddSupplier(CreateSupplierDto dto);
+        Task<ServiceResponse<bool>> UpdateSupplier(int id, UpdateSupplierDto dto);
+        Task<ServiceResponse<bool>> DeleteSupplier(int id);
     }
 }

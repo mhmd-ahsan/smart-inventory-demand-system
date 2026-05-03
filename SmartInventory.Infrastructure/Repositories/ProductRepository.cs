@@ -53,9 +53,9 @@ namespace SmartInventory.Infrastructure.Repositories
         }
 
         // Save Changes for the  Product
-        public async Task SaveChangesAsync()
+        public async Task<bool> SaveChangesAsync()
         {
-           await  _context.SaveChangesAsync();
+           return await _context.SaveChangesAsync() > 0;
         }
     }
 }

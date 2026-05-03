@@ -1,4 +1,5 @@
-﻿using SmartInventory.Application.DTOs.ProductsDtos;
+﻿using SmartInventory.Application.Common.Responses;
+using SmartInventory.Application.DTOs.ProductsDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace SmartInventory.Application.Interfaces.Service_Interfaces.Product_Inter
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductReadDto>> GetAllProducts();
-        Task<ProductReadDto?> GetProductById(int id);   
-        Task CreateProduct(ProductCreateDto dto);
-        Task UpdateProduct(int id, ProductUpdateDto dto);
-        Task DeleteProduct(int id);
+        Task<ServiceResponse<IEnumerable<ProductReadDto>>> GetAllProducts();
+        Task<ServiceResponse<ProductReadDto>> GetProductById(int id);
+        Task<ServiceResponse<int>> CreateProduct(ProductCreateDto dto);
+        Task<ServiceResponse<bool>> UpdateProduct(int id, ProductUpdateDto dto);
+        Task<ServiceResponse<bool>> DeleteProduct(int id);
     }
 }
