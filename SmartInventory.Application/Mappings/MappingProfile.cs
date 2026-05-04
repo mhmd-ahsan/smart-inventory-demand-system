@@ -2,6 +2,7 @@
 using SmartInventory.Application.DTOs.CategoryDtos;
 using SmartInventory.Application.DTOs.InventoryLogDtos;
 using SmartInventory.Application.DTOs.ProductsDtos;
+using SmartInventory.Application.DTOs.SaleDtos;
 using SmartInventory.Application.DTOs.SupplierDtos;
 using SmartInventory.Domain.Entities;
 using System;
@@ -50,6 +51,14 @@ namespace SmartInventory.Application.Mappings
 
             // UpdateDto → Entity
             CreateMap<CategoryUpdateDto, Category>();
+
+
+            // Sales Mapping
+            CreateMap<Sale, SaleReadDto>()
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name));
+
+            CreateMap<CreateSaleDto, Sale>();
+            CreateMap<UpdateSaleDto, Sale>();
         }
     }
 }
