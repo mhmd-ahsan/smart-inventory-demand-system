@@ -19,6 +19,8 @@ Backend:
   - ASP.NET Core Web API
   - Entity Framework Core
   - SQL Server
+  - JWT Authentication
+  - AutoMapper
 
 Frontend:
   - Angular
@@ -27,6 +29,7 @@ Architecture:
   - Clean Architecture
   - Repository Pattern
   - Service Layer
+  - DTO Pattern
 ```
 
 ---
@@ -70,10 +73,14 @@ SQL Server
 ## 📈 Progress
 
 ```text
-Day 1  ██████████ 100%
-Day 2  ██████████ 100%
-Day 3  ██████████ 100%
-Day 4  ░░░░░░░░░░ 0%
+Authentication Module   ██████████ 100%
+Product Module          ██████████ 100%
+Category Module         ██████████ 100%
+Supplier Module         ██████████ 100%
+Inventory Module        ██████████ 100%
+Sales Module            ██████████ 100%
+Frontend Integration    ░░░░░░░░░░ 0%
+Dashboard & Reports     ░░░░░░░░░░ 0%
 ```
 
 ---
@@ -87,6 +94,12 @@ Day 4  ░░░░░░░░░░ 0%
 - EF Core Migrations
 
 ---
+
+## 🔐 API Authentication
+Use JWT Bearer Token for protected endpoints.
+```text
+Authorization: Bearer YOUR_TOKEN
+```
 
 ## ▶ Run
 
