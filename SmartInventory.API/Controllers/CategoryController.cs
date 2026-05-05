@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartInventory.Application.DTOs.CategoryDtos;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Category_Interfaces;
 
@@ -40,6 +41,7 @@ namespace SmartInventory.API.Controllers
         }
 
         // POST: api/category/add-category
+        [Authorize(Roles = "Admin")]
         [HttpPost("add-category")]
         public async Task<IActionResult> AddCategory(CategoryCreateDto dto)
         {
@@ -64,6 +66,7 @@ namespace SmartInventory.API.Controllers
         }
 
         // DELETE: api/category/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

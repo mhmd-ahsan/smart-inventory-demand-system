@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Dashboard_Interface;
 using SmartInventory.Application.Services;
@@ -16,6 +17,8 @@ namespace SmartInventory.API.Controllers
             _service = service;
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpGet("analytics")]
         public async Task<IActionResult> GetDashboardAnalytics()
         {

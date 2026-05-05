@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartInventory.Application.DTOs.SaleDtos;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Sales_Interface;
@@ -17,6 +18,7 @@ namespace SmartInventory.API.Controllers
         }
 
         // Get All
+        [Authorize(Roles = "Admin,User")]
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAll()
         {
@@ -31,7 +33,8 @@ namespace SmartInventory.API.Controllers
         }
 
         // Get by Id
-        [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
             var response = await _service.GetSaleById(id);
@@ -45,6 +48,7 @@ namespace SmartInventory.API.Controllers
         }
 
         // Add Sale
+        [Authorize(Roles = "Admin,User")]
         [HttpPost("add-sale")]
         public async Task<IActionResult> AddSale(CreateSaleDto dto)
         {

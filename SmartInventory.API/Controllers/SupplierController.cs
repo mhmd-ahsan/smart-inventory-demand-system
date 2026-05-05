@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartInventory.Application.DTOs.SupplierDtos;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Supplier_Interface;
 
@@ -17,6 +18,7 @@ namespace SmartInventory.API.Controllers
         }
 
         // GET: api/supplier/get-all
+        [Authorize(Roles = "Admin,User")]
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAll()
         {
@@ -30,7 +32,9 @@ namespace SmartInventory.API.Controllers
         }
 
         // GET: api/supplier/5
-        [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id:int}")]
+
         public async Task<IActionResult>
             GetById(int id)
         {
@@ -44,7 +48,9 @@ namespace SmartInventory.API.Controllers
         }
 
         // POST: api/supplier/add-supplier
+        [Authorize(Roles = "Admin")]
         [HttpPost("add-supplier")]
+
         public async Task<IActionResult>
             AddSupplier(CreateSupplierDto dto)
         {
