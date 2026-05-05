@@ -18,6 +18,7 @@ namespace SmartInventory.API.Controllers
         }
 
         // GET: api/product/get-all
+        [Authorize(Roles = "Admin,User")]
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAll()
         {
@@ -45,6 +46,7 @@ namespace SmartInventory.API.Controllers
         }
 
         // POST: api/product/add-product
+        [Authorize(Roles = "Admin")]
         [HttpPost("add-product")]
         public async Task<IActionResult> AddProduct(ProductCreateDto dto)
         {
@@ -71,6 +73,7 @@ namespace SmartInventory.API.Controllers
         }
 
         // DELETE: api/product/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
