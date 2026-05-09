@@ -34,7 +34,7 @@ namespace SmartInventory.API.Controllers
 
         // Get by Id
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{id:int}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
             var response = await _service.GetSaleById(id);
