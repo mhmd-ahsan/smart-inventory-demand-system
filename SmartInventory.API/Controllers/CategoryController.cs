@@ -43,7 +43,7 @@ namespace SmartInventory.API.Controllers
         // POST: api/category/add-category
         [Authorize(Roles = "Admin")]
         [HttpPost("add-category")]
-        public async Task<IActionResult> AddCategory(CategoryCreateDto dto)
+        public async Task<IActionResult> AddCategory([FromBody]  CategoryCreateDto dto)
         {
             var response = await _service.AddCategory(dto);
 
@@ -54,8 +54,9 @@ namespace SmartInventory.API.Controllers
         }
 
         // PUT: api/category/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateCategory(int id, CategoryUpdateDto dto)
+        public async Task<IActionResult> UpdateCategory(int id,  CategoryUpdateDto dto)
         {
             var response = await _service.UpdateCategory(id, dto);
 

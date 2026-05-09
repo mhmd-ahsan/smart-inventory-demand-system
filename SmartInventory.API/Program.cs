@@ -1,14 +1,23 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OfficeOpenXml;
 using SmartInventory.Application.Interfaces.Product_Interfaces;
 using SmartInventory.Application.Interfaces.Repo_Interfaces;
 using SmartInventory.Application.Interfaces.Repo_Interfaces.Auth_Interfaces;
+using SmartInventory.Application.Interfaces.Repo_Interfaces.Category_Interfaces;
+using SmartInventory.Application.Interfaces.Repo_Interfaces.Dashboard_Interface;
 using SmartInventory.Application.Interfaces.Repo_Interfaces.Inventory_Interface;
+using SmartInventory.Application.Interfaces.Repo_Interfaces.Sale_Interface;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Auth_Interface;
+using SmartInventory.Application.Interfaces.Service_Interfaces.Category_Interfaces;
+using SmartInventory.Application.Interfaces.Service_Interfaces.Dashboard_Interface;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Inventory_Interface;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Product_Interface;
+using SmartInventory.Application.Interfaces.Service_Interfaces.Report_Interface;
+using SmartInventory.Application.Interfaces.Service_Interfaces.Sales_Interface;
 using SmartInventory.Application.Interfaces.Service_Interfaces.Supplier_Interface;
 using SmartInventory.Application.Mappings;
 using SmartInventory.Application.Services;
@@ -19,15 +28,15 @@ using SmartInventory.Infrastructure.Seed;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Http;
-using SmartInventory.Application.Interfaces.Repo_Interfaces.Category_Interfaces;
-using SmartInventory.Application.Interfaces.Service_Interfaces.Category_Interfaces;
-using SmartInventory.Application.Interfaces.Repo_Interfaces.Sale_Interface;
-using SmartInventory.Application.Interfaces.Service_Interfaces.Sales_Interface;
-using SmartInventory.Application.Interfaces.Repo_Interfaces.Dashboard_Interface;
-using SmartInventory.Application.Interfaces.Service_Interfaces.Dashboard_Interface;
 
+// 1. GLOBAL CONFIGURATIONS
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+ExcelPackage.License.SetNonCommercialPersonal("Ahsan");
+
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +68,8 @@ builder.Services.AddScoped<ISaleService, SaleService>();
 
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+
+builder.Services.AddScoped<IReportService, ReportService>();
 
 
 // AutoMapper

@@ -33,10 +33,8 @@ namespace SmartInventory.API.Controllers
 
         // GET: api/supplier/5
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{id:int}")]
-
-        public async Task<IActionResult>
-            GetById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
         {
             var response =
                 await _service.GetSupplierById(id);
