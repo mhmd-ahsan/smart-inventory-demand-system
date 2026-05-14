@@ -35,5 +35,13 @@ namespace SmartInventory.Application.Services
                     );
             }
         }
+
+        public async Task<ServiceResponse<List<DemandAnalysisDto>>> GetDemandAnalysis()
+        {
+            var data = await _repo.GetDemandAnalysisAsync();
+
+            return ServiceResponse<List<DemandAnalysisDto>>
+                .SuccessResponse(data, "Demand analysis fetched");
+        }
     }
 }
