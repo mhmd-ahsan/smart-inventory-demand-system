@@ -3,11 +3,11 @@
 </h1>
 
 <p align="center">
-Inventory Management System built with ASP.NET Core, EF Core, Angular and Clean Architecture
+Smart Inventory & Demand Analysis System built with ASP.NET Core, EF Core, Angular and Clean Architecture
 </p>
 
 <p align="center">
-🚧 In Progress • Backend First • Portfolio Project
+🚀 Backend Completed • Smart Features Added • Frontend Next
 </p>
 
 ---
@@ -21,9 +21,11 @@ Backend:
   - SQL Server
   - JWT Authentication
   - AutoMapper
+  - EPPlus (Excel Reports)
+  - iText7 (PDF Reports)
 
 Frontend:
-  - Angular
+  - Angular (Planned)
 
 Architecture:
   - Clean Architecture
@@ -49,10 +51,10 @@ API Controllers
 Service Layer
  │
  ▼
-Repository
+Repository Layer
  │
  ▼
-SQL Server
+SQL Server Database
 ```
 
 ---
@@ -60,12 +62,16 @@ SQL Server
 ## 📌 Modules
 
 ```text
-✅ Product CRUD
+✅ Authentication (JWT + Roles)
+✅ Product Management
+✅ Category Management
 ✅ Supplier Management
-🔄 Sales Module
-🔄 Inventory Tracking
-🧠 Demand Forecasting (Planned)
-🔐 JWT Auth (Planned)
+✅ Sales Management
+✅ Inventory Tracking
+✅ Dashboard & Analytics
+✅ Report Generation (Excel + PDF)
+✅ Smart Demand Analysis 🔥
+🌐 Angular Frontend (Next Phase)
 ```
 
 ---
@@ -79,19 +85,38 @@ Category Module         ██████████ 100%
 Supplier Module         ██████████ 100%
 Inventory Module        ██████████ 100%
 Sales Module            ██████████ 100%
+Dashboard Module        ██████████ 95%
+Reports Module          ██████████ 100%
+Demand Analysis         █████████░ 90%
 Frontend Integration    ░░░░░░░░░░ 0%
-Dashboard & Reports     ░░░░░░░░░░ 0%
 ```
 
 ---
 
 ## 🚀 Features
 
-- Product CRUD APIs
-- Supplier Relationships
-- DTO + AutoMapper
-- Swagger Testing
-- EF Core Migrations
+- 🔐 **JWT Authentication & Role-Based Authorization**  
+- 📦 **Complete Inventory Management** (Products, Categories, Suppliers)  
+- 💰 **Sales Tracking System**  
+- 📊 **Dashboard Analytics** (Revenue, Sales, Low Stock Insights)  
+- 📄 **Report Generation** (Excel & PDF Export)  
+- 🧠 **Smart Demand Analysis**  
+  - Average sales calculation  
+  - Top-selling products identification  
+  - Smart restock suggestions based on sales trends  
+- 🧪 **API Testing with Swagger**  
+- 🔄 **Clean Architecture Implementation**
+
+---
+
+## 🧠 Smart Demand Analysis (NEW 🔥)
+
+The system now leverages **last 30 days of sales data** to provide intelligent insights:
+
+- 📈 Predict product demand  
+- 📊 Calculate average daily sales  
+- ⚠️ Suggest smart restocking decisions  
+- 📉 Reduce overstock and stockout risks  
 
 ---
 
