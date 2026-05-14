@@ -56,5 +56,27 @@ namespace SmartInventory.Infrastructure.Repositories
                 TopSellingProducts = topSellingProducts,
             };
         }
+
+        public async Task<List<DemandAnalysisDto>> GetDemandAnalysisAsync()
+        {
+            var last30Days = DateTime.UtcNow.AddDays(-30);
+
+            var data = await _db.Sales
+                .Where(s => s.SaleDate >= last30Days)
+                .Include(s => s.Product)
+                .GroupBy(s => new { s.ProductId, s.Product.Name, s.Product.StockQuantity })
+                .Select(g => new DemandAnalysisDto
+                {
+                    ProductName = g.Key.Name,
+                    TotalSold = g.Sum(x => x.Quantity),
+                    AvgSalesPerDay = g.Sum(x => x.Quantity) / 30.0,
+                    CurrentStock = g.Key.StockQuantity,
+                    NeedsRestock = g.Key.StockQuantity < (g.Sum(x => x.Quantity) / 30.0) * 7 // next 7 days demand
+                })
+                .OrderByDescending(x => x.TotalSold)
+                .ToListAsync();
+
+            return data;
+        }
     }
 }

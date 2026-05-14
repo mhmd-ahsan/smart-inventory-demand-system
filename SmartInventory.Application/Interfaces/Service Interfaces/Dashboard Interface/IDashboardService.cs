@@ -11,5 +11,6 @@ namespace SmartInventory.Application.Interfaces.Service_Interfaces.Dashboard_Int
     public interface IDashboardService
     {
         Task<ServiceResponse<DashboardReadDto>> GetDashboardDataAsync();
+        Task<ServiceResponse<List<DemandAnalysisDto>>> GetDemandAnalysis();
     }
 }

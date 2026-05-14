@@ -30,5 +30,16 @@ namespace SmartInventory.API.Controllers
             return Ok(response);
 
         }
+
+        [HttpGet("demand-analysis")]
+        public async Task<IActionResult> GetDemandAnalysis()
+        {
+            var response = await _service.GetDemandAnalysis();
+
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
+        }
     }
 }
